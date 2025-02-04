@@ -1,6 +1,8 @@
 class Libro:
-
+    contador = 0
     def __init__(self, titulo, autor, ISBN, editorial, disponibilidad=True):
+        Libro.contador += 1
+        self.id = Libro.contador
         self.titulo = titulo
         self.autor = autor
         self.ISBN = ISBN
@@ -24,7 +26,11 @@ class Libro:
 
 
 class Usuario:
+    contador = 0
+
     def __init__(self, nombre, apellido, dni, email, **kwargs ):
+        Usuario.contador += 1
+        self.id = Usuario.contador
         self.nombre = nombre
         self.apellido = apellido
         self.dni = dni

@@ -2,29 +2,31 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %} {% endblock %}</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - Sistema Bibliotecario</title>
+    <link rel="stylesheet" href="static/css/styles.css">
 </head>
 <body>
     <div class="container">
-        <div id="branding">
-            <h1>Biblioteca</h1>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('index') }}">Inicio</a></li>
-                <li><a href="{{ url_for('manejar_libros') }}">Libros</a></li>
-                <li><a href="{{ url_for('manejar_usuarios') }}">Usuarios</a></li>
-                <li><a href="{{ url_for('gestionar_prestamos') }}">Prestamos</a></li>
-            </ul>
+        <nav class="sidebar">
+            <h3 class="sidebar-title">SISTEMA BIBLIOTECARIO</h3>
+            <div class="menu">
+                <a href="{{ url_for('index') }}" class="menu-link">INICIO</a></li>
+                <a href="{{ url_for('manejar_libros') }}" class="menu-link">LIBROS</a></li>
+                <a href="{{ url_for('manejar_usuarios') }}" class="menu-link">USUARIOS</a></li>
+                <a href="{{ url_for('gestionar_prestamos') }}" class="menu-link">PRÉSTAMOS</a></li>
+            </div>
         </nav>
-    </div>
-
-{% block contenido %}
         
-{% endblock %}
-    <footer>
-        <p>Biblioteca &copy; 2025</p>
-    </footer>
+        <main class="main-content">
+            <header>
+                <h1 id="titulopagina">{% block header %}{% endblock %}</h1>
+            </header>
+            <div class="contenidos">
+                {% block contenido %}{% endblock %} 
+            </div>
+            
+        </main>
+    </div>
 </body>
 </html>

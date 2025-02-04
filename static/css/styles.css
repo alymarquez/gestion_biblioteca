@@ -1,0 +1,153 @@
+body{
+    height: 100%;
+    margin: 0;
+}
+
+.container{
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+
+/* sidebar */
+
+.sidebar{
+    width: 20%;
+    background-color: #615050;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+}
+
+.sidebar-title{
+    margin: 10px 10px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.menu{
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.menu-link{
+    padding: 20px 0;
+    margin: 10px 10px;
+    background-color: #f5f1e8;
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    color: #ad9a6f;
+    font-weight: bolder;
+}
+
+.menu-link:hover{
+    background-color: #776a6a;
+    color: #f5f1e8;
+}
+
+#titulopagina{
+    background-color: #615050;
+    margin: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fcfcfc;
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+}
+
+.main-content{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content header{
+    height: 10%;
+}
+
+.contenidos{
+    margin: 30px 70px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+}
+
+/* formularios */
+.formulario{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.form-group{
+    margin: 15px 20px;
+    width: 80%;
+    justify-content: center;
+    display: flex;
+}
+
+.form-container{
+    display: flex;
+    flex-direction: column;
+    background-color: #f5f1e8;
+    border: 1px;
+    border-color: #776a6a;
+    border-style: groove;
+    border-radius: 20px;
+    width: 70%;
+    justify-content: center;
+}
+
+.form-container h1{
+    display: flex;
+    justify-content: center;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.form-control{
+    width: 80%;
+    background-color:#fcfcfc;
+    border-radius: 20px;
+    border-color: rgb(119, 100, 141);
+    border-style:none;
+}
+
+.form-control:hover{
+    background-color: #776a6a;
+}
+
+.form-control:hover::placeholder{
+    color: white;
+}
+
+.btn-primary{
+    background-color: #776a6a;
+    border-style:none;
+    border: none;
+    border-radius: 15px;
+    padding: 5px 5px;
+    width: 20%;
+}
+
+.btn-primary:hover{
+    background-color: rgb(140, 129, 150);
+    color: white;
+}

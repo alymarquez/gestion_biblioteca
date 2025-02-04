@@ -29,7 +29,7 @@
             <label for="fecha_devolucion">Fecha de Devolución</label>
             <input type="date" class="form-control" id="fecha_devolucion" name="fecha_devolucion">
         </div>
-        <button type="submit" class="btn btn-primary">Registrar Préstamo</button>
+        <button type="submit" class="btn-primary">Registrar Préstamo</button>
     </form>
 
     <h2>Devolución de Libro</h2>
@@ -69,8 +69,8 @@
         <tbody>
             {% for prestamo in prestamos %}
                 <tr>
-                    <td>{{ prestamo.id_prestamo }}</td>
-                    <td>{{ prestamo.libro.titulo }} ({{ prestamo.libro.ISBN }})</td>
+                    <td>{{ prestamo.id }}</td>
+                    <td>{{ prestamo.libro.titulo }} ({{ prestamo.libro.id }})</td>
                     <td> {{ prestamo.usuario.nombre }} ({{ prestamo.usuario.dni }})</td>
                     <td> {{ prestamo.fecha_prestamo }} </td>
                     <td> {{ prestamo.fecha_devolucion }} </td>
