@@ -1,68 +1,119 @@
-body{
-    height: 100%;
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
+
+html, body {
     margin: 0;
+    padding: 0;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    scroll-behavior: smooth;
+    scroll-padding-top: 150px;
 }
 
-.container{
-    height: 100vh;
+.container {
     display: flex;
     flex-direction: row;
+    flex-grow: 1;
+    overflow: visible;
 }
+
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-height: 100vh; /* Ocupar toda la altura */
+}
+
+/*
+.main-content::before{
+    content: "";
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background: url("../images/bookbg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    opacity: 0.5; 
+    z-index: -1;
+}
+*/
 
 /* sidebar */
 
 .sidebar{
+    position: sticky;
+    top: 0px;
     width: 20%;
-    background-color: #615050;
-    color: black;
+    background-color: #5E3023;
     display: flex;
+    align-self: flex-start;
     flex-direction: column;
-    height: 100%;
+    min-height: 100vh;
     font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
+    
+    /*background-image: url("../images/bookbg.jpg");
+    background-size: cover;*/
 }
 
 .sidebar-title{
-    margin: 10px 10px;
+    margin: 0px 0px;
     justify-content: center;
     display: flex;
     align-items: center;
-    font-size: 15px;
+    font-size: 20px !important;
     font-weight: bold;
+    text-align: center;
+    background-color: #371911;
+    padding: 9.3px;
+    color: #F3E9DC;
+}
+
+.sidebar img {
+    width: 150px; /* Ajusta el tamaño */
+    height: auto; /* Mantiene la proporción */
+    display: block; /* Evita márgenes no deseados */
+    margin: 10px auto; /* Centrar la imagen */
 }
 
 .menu{
-    height: 70%;
+    position: sticky;
+    top: 0px;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .menu-link{
     padding: 20px 0;
     margin: 10px 10px;
-    background-color: #f5f1e8;
+    background-color: #F3E9DC;
     list-style-type: none;
     display: flex;
     justify-content: center;
     text-decoration: none;
-    color: #ad9a6f;
+    color: #C08552;
     font-weight: bolder;
 }
 
 .menu-link:hover{
-    background-color: #776a6a;
+    background-color: #895737;
     color: #f5f1e8;
 }
 
 #titulopagina{
-    background-color: #615050;
+    background-color: #371911;
     margin: 0;
-    height: 100%;
+    min-height: 10vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #fcfcfc;
+    color: #F3E9DC;
     font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
 }
@@ -80,12 +131,20 @@ body{
 }
 
 .contenidos{
-    margin: 30px 70px;
+    margin: 150px 70px;
     align-items: center;
     justify-content: center;
     display: flex;
     flex-direction: column;
     width: 90%;
+}
+
+.listalibros{
+    margin: 200px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 /* formularios */
@@ -107,7 +166,7 @@ body{
 .form-container{
     display: flex;
     flex-direction: column;
-    background-color: #f5f1e8;
+    background-color: #F3E9DC;
     border: 1px;
     border-color: #776a6a;
     border-style: groove;
@@ -119,7 +178,8 @@ body{
 .form-container h1{
     display: flex;
     justify-content: center;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    /*font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    */font-family: 'Roboto Slab';
 }
 
 .form-control{
@@ -131,23 +191,105 @@ body{
 }
 
 .form-control:hover{
-    background-color: #776a6a;
+    background-color: #DAB49D;
 }
 
 .form-control:hover::placeholder{
     color: white;
 }
 
-.btn-primary{
-    background-color: #776a6a;
-    border-style:none;
+.btn-primary {
+    display: inline-block; /* Asegura que el botón respete el tamaño */
+    background-color: #DAB49D;
+    color: #000; /* Texto visible */
+    text-align: center;
+    text-decoration: none;
     border: none;
     border-radius: 15px;
-    padding: 5px 5px;
-    width: 20%;
+    padding: 5px 20px; /* Espaciado interno */
+    font-size: 14px; /* Tamaño de texto */
+    cursor: pointer;
+    width: auto; /* Evita que el ancho se reduzca */
+    white-space: nowrap; /* Evita que el texto se corte en varias líneas */
 }
 
 .btn-primary:hover{
-    background-color: rgb(140, 129, 150);
+    background-color: #C08552;
     color: white;
 }
+
+.button-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 10px; /* Espacio entre los botones y la información */
+}
+
+.button-container form {
+    margin-bottom: 5px; /* Espacio entre botones */
+}
+
+.list-group-item p {
+    margin: 0; /* Ajusta el margen del texto para evitar espacios innecesarios */
+}
+
+/* desplegable */
+#menu-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #371911;
+    padding: 2px;
+    color: #F3E9DC;
+    position: sticky;
+    top: 0px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    margin: 0px 15px;
+    background-color: #5E3023;
+    color: white;
+    padding: 10px 15px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    scroll-margin-top: 100px;
+}
+
+.dropbtn:hover {
+    background-color: #C08552;
+    scroll-margin-top: 100px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #F3E9DC;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: 0;
+}
+
+.dropdown-content a {
+    color: #5E3023;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #C08552;
+    color: white;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+

@@ -2,9 +2,21 @@
 
 {% block title %}Libros{% endblock %}
 {% block header %}GESTIÓN DE LIBROS{% endblock %}
+{% block desplegable %} 
+
+<div class="dropdown">
+    <button class="dropbtn">☰</button>
+    <div class="dropdown-content">
+        <a href="#agregarlibro">Agregar Libro</a>
+        <a href="#librosdisponibles">Libros Disponibles</a>
+    </div>
+</div>
+
+{% endblock %}
+
 
 {% block contenido %}
-    <div class="form-container">
+    <div id="agregarlibro" class="form-container">
         <h1>Agregar libros</h1>
         <form class="formulario" method="POST" action="{{ url_for('manejar_libros') }}">
             <div class="form-group">
@@ -26,24 +38,26 @@
         </form>
     </div>
 
-    <h2>Libros disponibles</h2>
-    <ul class="list-group">
-        {% for libro in libros%}
-        <li class="list-group-item">
-            {{ libro.titulo }} por {{ libro.autor }} (ISBN: {{ libro.ISBN }}) - Editorial: {{libro.editorial}}
-
-            <form action="{{ url_for('editar_libro', isbn=libro.ISBN) }}" method="GET" style="display:inline;">
-                <button type="submit" class="btn btn-warning">Editar</button>
-            </form>
+    <div class="listalibros">
+        <h2 id="librosdisponibles">Libros disponibles</h2>
+        <ul class="list-group">
+            {% for libro in libros%}
+            <li class="list-group-item">
+                <p>{{ libro.titulo }} por {{ libro.autor }} (ISBN: {{ libro.ISBN }}) - Editorial: {{libro.editorial}} </p>
+                <div class="button-container">
+                    <form action="{{ url_for('editar_libro', isbn=libro.ISBN) }}" method="GET" style="display:inline;">
+                        <button type="submit" class="btn-primary">Editar</button>
+                    </form>
+                    
+                    <form action="{{ url_for('eliminar_libro', isbn=libro.ISBN) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn-primary" onclick="return confirm('¿Seguro que quieres eliminar este libro?')">
+                            Eliminar
+                        </button>
+                    </form>
+                </div>
+            </li>
             
-            <form action="{{ url_for('eliminar_libro', isbn=libro.ISBN) }}" method="POST" style="display:inline;">
-                <button type="submit" class="btn btn-danger" onclick="return confirm('¿Seguro que quieres eliminar este libro?')">
-                    Eliminar
-                </button>
-            </form>
-        </li>
-        
-        {% endfor %}
-    </ul>
-
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

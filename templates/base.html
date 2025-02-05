@@ -10,17 +10,22 @@
     <div class="container">
         <nav class="sidebar">
             <h3 class="sidebar-title">SISTEMA BIBLIOTECARIO</h3>
+            <img src="static/images/gatolibro.png">
             <div class="menu">
-                <a href="{{ url_for('index') }}" class="menu-link">INICIO</a></li>
-                <a href="{{ url_for('manejar_libros') }}" class="menu-link">LIBROS</a></li>
-                <a href="{{ url_for('manejar_usuarios') }}" class="menu-link">USUARIOS</a></li>
-                <a href="{{ url_for('gestionar_prestamos') }}" class="menu-link">PRÉSTAMOS</a></li>
+                <a href="{{ url_for('index') }}" class="menu-link">INICIO</a>
+                <a href="{{ url_for('manejar_libros') }}" class="menu-link">LIBROS</a>
+                <a href="{{ url_for('manejar_usuarios') }}" class="menu-link">USUARIOS</a>
+                <a href="{{ url_for('gestionar_prestamos') }}" class="menu-link">PRÉSTAMOS</a>
             </div>
+            
         </nav>
         
         <main class="main-content">
             <header>
-                <h1 id="titulopagina">{% block header %}{% endblock %}</h1>
+               <div id="menu-container">
+                    <h1 id="titulopagina">{% block header %}{% endblock %}</h1>
+                    {% block desplegable %} {% endblock %}
+                </div>
             </header>
             <div class="contenidos">
                 {% block contenido %}{% endblock %} 
