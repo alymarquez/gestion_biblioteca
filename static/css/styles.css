@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Roboto+Slab:wght@100..900&display=swap');
 
 html, body {
     margin: 0;
@@ -8,7 +8,7 @@ html, body {
     display: flex;
     flex-direction: column;
     scroll-behavior: smooth;
-    scroll-padding-top: 150px;
+    /*scroll-padding-top: 150px;*/
 }
 
 .container {
@@ -26,7 +26,7 @@ html, body {
     min-height: 100vh; /* Ocupar toda la altura */
 }
 
-/*
+
 .main-content::before{
     content: "";
     position: absolute;
@@ -35,13 +35,13 @@ html, body {
     width: 100%; 
     height: 100%;
     background: url("../images/bookbg.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-size: contain;
+    background-repeat: repeat;
     background-attachment: fixed;
     opacity: 0.5; 
     z-index: -1;
 }
-*/
+
 
 /* sidebar */
 
@@ -49,7 +49,7 @@ html, body {
     position: sticky;
     top: 0px;
     width: 20%;
-    background-color: #5E3023;
+    background-color: #5a7f78;
     display: flex;
     align-self: flex-start;
     flex-direction: column;
@@ -68,10 +68,11 @@ html, body {
     font-size: 20px !important;
     font-weight: bold;
     text-align: center;
-    background-color: #371911;
-    padding: 9.3px;
-    color: #F3E9DC;
+    background-color: #314c53;
+    padding: 10.8px;
+    color: #f7f8fc;
 }
+
 
 .sidebar img {
     width: 150px; /* Ajusta el tamaño */
@@ -92,28 +93,28 @@ html, body {
 .menu-link{
     padding: 20px 0;
     margin: 10px 10px;
-    background-color: #F3E9DC;
+    background-color: #f7f8fc;
     list-style-type: none;
     display: flex;
     justify-content: center;
     text-decoration: none;
-    color: #C08552;
+    color: #5a7f78;
     font-weight: bolder;
 }
 
 .menu-link:hover{
-    background-color: #895737;
+    background-color: #314c53;
     color: #f5f1e8;
 }
 
 #titulopagina{
-    background-color: #371911;
+    background-color: #314c53;
     margin: 0;
     min-height: 10vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #F3E9DC;
+    color: #f7f8fc;
     font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
 }
@@ -139,8 +140,18 @@ html, body {
     width: 90%;
 }
 
-.listalibros{
+section{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+}
+
+#listalibros{
     margin: 200px 0px;
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -166,12 +177,12 @@ html, body {
 .form-container{
     display: flex;
     flex-direction: column;
-    background-color: #F3E9DC;
+    background-color: #ebedf4;
     border: 1px;
-    border-color: #776a6a;
+    border-color: #f7f8fc;
     border-style: groove;
     border-radius: 20px;
-    width: 70%;
+    width: 100%;
     justify-content: center;
 }
 
@@ -191,7 +202,7 @@ html, body {
 }
 
 .form-control:hover{
-    background-color: #DAB49D;
+    background-color: #bbdec6;
 }
 
 .form-control:hover::placeholder{
@@ -200,7 +211,7 @@ html, body {
 
 .btn-primary {
     display: inline-block; /* Asegura que el botón respete el tamaño */
-    background-color: #DAB49D;
+    background-color: #5a7f78;
     color: #000; /* Texto visible */
     text-align: center;
     text-decoration: none;
@@ -214,7 +225,7 @@ html, body {
 }
 
 .btn-primary:hover{
-    background-color: #C08552;
+    background-color: #bbdec6;
     color: white;
 }
 
@@ -238,7 +249,7 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #371911;
+    background-color: #314c53;
     padding: 2px;
     color: #F3E9DC;
     position: sticky;
@@ -252,7 +263,7 @@ html, body {
 
 .dropbtn {
     margin: 0px 15px;
-    background-color: #5E3023;
+    background-color: #5a7f78;
     color: white;
     padding: 10px 15px;
     font-size: 18px;
@@ -263,7 +274,7 @@ html, body {
 }
 
 .dropbtn:hover {
-    background-color: #C08552;
+    background-color: #bbdec6;
     scroll-margin-top: 100px;
 }
 
@@ -285,7 +296,7 @@ html, body {
 }
 
 .dropdown-content a:hover {
-    background-color: #C08552;
+    background-color: #bbdec6;
     color: white;
 }
 

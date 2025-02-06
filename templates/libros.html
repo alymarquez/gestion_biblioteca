@@ -4,41 +4,43 @@
 {% block header %}GESTIÓN DE LIBROS{% endblock %}
 {% block desplegable %} 
 
-<div class="dropdown">
+<nav class="dropdown">
     <button class="dropbtn">☰</button>
     <div class="dropdown-content">
-        <a href="#agregarlibro">Agregar Libro</a>
-        <a href="#librosdisponibles">Libros Disponibles</a>
+        <a href="#agregarLibro">Agregar Libro</a>
+        <a href="#listalibros">Libros Disponibles</a>
     </div>
-</div>
+</nav>
 
 {% endblock %}
 
 
 {% block contenido %}
-    <div id="agregarlibro" class="form-container">
-        <h1>Agregar libros</h1>
-        <form class="formulario" method="POST" action="{{ url_for('manejar_libros') }}">
-            <div class="form-group">
-                <input placeholder="Titulo" type="text" class="form-control" id="titulo" name="titulo" required>
-            </div>
-            <div class="form-group">
-                <input placeholder="Autor" type="text" class="form-control" id="autor" name="autor" required>
-            </div>
-            <div class="form-group">
-                <input placeholder="ISBN" type="text" class="form-control" id="ISBN" name="ISBN" required>
-            </div>
-            <div class="form-group">
-                <input placeholder="Editorial" type="text" class="form-control" id="editorial" name="editorial" required>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn-primary">Agregar</button>
-            </div>
-            
-        </form>
-    </div>
+    <section id="agregarLibro">
+        <div class="form-container">
+            <h1>Agregar libros</h1>
+            <form class="formulario" method="POST" action="{{ url_for('manejar_libros') }}">
+                <div class="form-group">
+                    <input placeholder="Titulo" type="text" class="form-control" id="titulo" name="titulo" required>
+                </div>
+                <div class="form-group">
+                    <input placeholder="Autor" type="text" class="form-control" id="autor" name="autor" required>
+                </div>
+                <div class="form-group">
+                    <input placeholder="ISBN" type="text" class="form-control" id="ISBN" name="ISBN" required>
+                </div>
+                <div class="form-group">
+                    <input placeholder="Editorial" type="text" class="form-control" id="editorial" name="editorial" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn-primary">Agregar</button>
+                </div>
+                
+            </form>
+        </div>
+    </section>
 
-    <div class="listalibros">
+    <div id="listalibros">
         <h2 id="librosdisponibles">Libros disponibles</h2>
         <ul class="list-group">
             {% for libro in libros%}
