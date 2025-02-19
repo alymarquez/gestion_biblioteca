@@ -244,6 +244,20 @@ section{
     margin: 0; /* Ajusta el margen del texto para evitar espacios innecesarios */
 }
 
+.btn-busqueda {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    border:rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 5px 20px;
+    width: auto;
+    white-space: nowrap;
+    cursor:text;
+    border-color: #16363f;
+    border-style:solid;
+}
+
 /* desplegable */
 #menu-container {
     display: flex;
@@ -304,3 +318,21 @@ section{
     display: block;
 }
 
+/* index */
+
+.description-box {
+    display: flex;
+    flex-direction: column;
+    border: 2px;
+    border-color: #f7f8fc;
+    border-style: groove;
+    border-radius: 20px;
+    margin-top: -30px;
+    justify-content: center;
+    background-color: #fbfbfdf6;
+    padding: 5px;
+}
+
+.features-section{
+    margin-top: 50px;
+}

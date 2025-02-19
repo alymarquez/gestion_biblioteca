@@ -25,8 +25,21 @@ def manejar_libros():
         biblioteca.agregarLibro(nuevo_libro)
         #guardar_datos()
         return redirect(url_for('manejar_libros'))
+    
+    # Lógica barra búsqueda
     elif request.method == 'GET':
-        return render_template("libros.html", libros=biblioteca.libros)
+        query = request.args.get("query", "").lower()
+        if query:
+            libros_filtrados = [libro for libro in biblioteca.libros if 
+                                query in libro.titulo.lower() or 
+                                query in libro.autor.lower() or
+                                query in libro.editorial.lower() or
+                                query in str(libro.ISBN)]
+        else:
+            libros_filtrados = biblioteca.libros
+            
+        return render_template("libros.html", libros=libros_filtrados, query=query)
+
 
 @app.route('/eliminar/<isbn>', methods=['POST'])
 def eliminar_libro(isbn):

@@ -1,59 +1,68 @@
 {% extends "base.html" %}
 
 {% block title %}Prestamos{% endblock %}
+{% block header %}GESTIÓN DE PRÉSTAMOS{% endblock %}
 
 {% block contenido %}
-    <h1> Gestion de Préstamos </h1>
-    <form method="POST" action="{{ url_for('gestionar_prestamos') }}">
-        <div class="form-group">
-            <label for="dni"> Usuario </label>
-            <select class="form-control" id="dni" name="dni" required>
-                {% for usuario in usuarios%}
-                    <option value="{{ usuario.dni }}"> {{ usuario.dni }} - {{ usuario.nombre }} </option>
-                {% endfor %}
-            </select>
+    <section id="agregarLibro">
+        <div class="form-container">
+            <h1>Registro de Préstamos</h1>
+            <form class="formulario" method="POST" action="{{ url_for('gestionar_prestamos') }}">
+                <div class="form-group">
+                    <label for="dni"> Usuario </label>
+                    <select class="form-control" id="dni" name="dni" required>
+                        {% for usuario in usuarios%}
+                            <option value="{{ usuario.dni }}"> {{ usuario.dni }} - {{ usuario.nombre }} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ISBN"> Libro </label>
+                    <select class="form-control" id="ISBN" name="ISBN" required>
+                        {% for libro in libros%}
+                            <option value="{{ libro.ISBN }}"> {{ libro.ISBN }} - {{ libro.titulo }} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="fecha_prestamo">Fecha de Préstamos</label>
+                    <input type="date" class="form-control" id="fecha_prestamo" name="fecha_prestamo">
+                </div>
+                <div class="form-group">
+                    <label for="fecha_devolucion">Fecha de Devolución</label>
+                    <input type="date" class="form-control" id="fecha_devolucion" name="fecha_devolucion">
+                </div>
+                <button type="submit" class="btn-primary">Registrar Préstamo</button>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="ISBN"> Libro </label>
-            <select class="form-control" id="ISBN" name="ISBN" required>
-                {% for libro in libros%}
-                    <option value="{{ libro.ISBN }}"> {{ libro.ISBN }} - {{ libro.titulo }} </option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="fecha_prestamo">Fecha de Préstamos</label>
-            <input type="date" class="form-control" id="fecha_prestamo" name="fecha_prestamo">
-        </div>
-        <div class="form-group">
-            <label for="fecha_devolucion">Fecha de Devolución</label>
-            <input type="date" class="form-control" id="fecha_devolucion" name="fecha_devolucion">
-        </div>
-        <button type="submit" class="btn-primary">Registrar Préstamo</button>
-    </form>
+    </section>
 
-    <h2>Devolución de Libro</h2>
-    <form method="POST" action="{{ url_for('gestionar_prestamos')}}">
-        <div class="form-group">
-            <label for="dni"> Usuario </label>
-            <select class="form-control" id="dni" name="dni" required>
-                {% for usuario in usuarios%}
-                    {% if usuario.librosTomados|length >= 1 %}
-                        <option value="{{ usuario.dni }}"> {{ usuario.dni }} - {{ usuario.nombre }} </option>
-                    {% endif %}
-                {% endfor %}
-            </select>
+    <section id="agregarLibro">
+        <div class="form-container">
+            <h1>Devolución de Libro</h1>
+            <form class="formulario" method="POST" action="{{ url_for('gestionar_prestamos')}}">
+                <div class="form-group">
+                    <label for="dni"> Usuario </label>
+                    <select class="form-control" id="dni" name="dni" required>
+                        {% for usuario in usuarios%}
+                            {% if usuario.librosTomados|length >= 1 %}
+                                <option value="{{ usuario.dni }}"> {{ usuario.dni }} - {{ usuario.nombre }} </option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ISBN"> Libro </label>
+                    <select class="form-control" id="ISBN" name="ISBN" required>
+                        {% for libro in libros%}
+                            <option value="{{ libro.ISBN }}"> {{ libro.ISBN }} - {{ libro.titulo }} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Devolver Libro</button>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="ISBN"> Libro </label>
-            <select class="form-control" id="ISBN" name="ISBN" required>
-                {% for libro in libros%}
-                    <option value="{{ libro.ISBN }}"> {{ libro.ISBN }} - {{ libro.titulo }} </option>
-                {% endfor %}
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Devolver Libro</button>
-    </form>
+    </section>
 
     <h2> Listado de Préstamos </h2>
     <table class="table">
@@ -70,7 +79,7 @@
             {% for prestamo in prestamos %}
                 <tr>
                     <td>{{ prestamo.id }}</td>
-                    <td>{{ prestamo.libro.titulo }} ({{ prestamo.libro.id }})</td>
+                    <td>{{ prestamo.libro.titulo }} </td>
                     <td> {{ prestamo.usuario.nombre }} ({{ prestamo.usuario.dni }})</td>
                     <td> {{ prestamo.fecha_prestamo }} </td>
                     <td> {{ prestamo.fecha_devolucion }} </td>
