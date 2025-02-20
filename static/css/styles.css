@@ -1,5 +1,6 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Roboto+Slab:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Roboto+Slab:wght@100..900&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crafty+Girls&family=Gaegu&family=Gamja+Flower&family=Indie+Flower&family=Lavishly+Yours&family=Playwrite+FR+Moderne:wght@100..400&family=Playwrite+NZ:wght@100..400&family=Ribeye&family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crafty+Girls&family=Delius+Swash+Caps&family=Gaegu&family=Gamja+Flower&family=Indie+Flower&family=Lavishly+Yours&family=Playwrite+FR+Moderne:wght@100..400&family=Playwrite+NZ:wght@100..400&family=Ribeye&family=Schoolbell&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap');
 
 html, body {
     margin: 0;
@@ -9,6 +10,11 @@ html, body {
     flex-direction: column;
     scroll-behavior: smooth;
     /*scroll-padding-top: 150px;*/
+}
+
+p {
+    font-family: 'Zain', sans-serif;
+    font-size: 1.2em;
 }
 
 .container {
@@ -54,8 +60,9 @@ html, body {
     align-self: flex-start;
     flex-direction: column;
     min-height: 100vh;
-    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    
+    font-family: 'Sour Gummy', sans-serif;
+    font-size: 100%;
+    letter-spacing: 2px;
     /*background-image: url("../images/bookbg.jpg");
     background-size: cover;*/
 }
@@ -115,8 +122,8 @@ html, body {
     justify-content: center;
     align-items: center;
     color: #f7f8fc;
-    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
+    font-family: 'Sour Gummy', sans-serif;
+    letter-spacing: 1.5px;
 }
 
 .main-content{
@@ -149,13 +156,18 @@ section{
     padding: 50px;
 }
 
-#listalibros{
+
+#lista{
     margin: 200px 0px;
     padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+#librosdisponibles{
+    font-family: 'Gaegu', sans-serif;
 }
 
 /* formularios */
@@ -184,13 +196,14 @@ section{
     border-radius: 20px;
     width: 100%;
     justify-content: center;
+    margin: 0 auto;
 }
 
 .form-container h1{
     display: flex;
     justify-content: center;
-    /*font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    */font-family: 'Roboto Slab';
+    font-family: 'Gaegu', sans-serif;
+    font-size: 30px;
 }
 
 .form-control{
@@ -222,6 +235,7 @@ section{
     cursor: pointer;
     width: auto; /* Evita que el ancho se reduzca */
     white-space: nowrap; /* Evita que el texto se corte en varias líneas */
+    font-family: 'Sour Gummy', sans-serif;
 }
 
 .btn-primary:hover{
@@ -231,19 +245,49 @@ section{
 
 .button-container {
     display: flex;
-    flex-direction: row;
     gap: 10px;
-    margin-top: 10px; /* Espacio entre los botones y la información */
+    
 }
 
 .button-container form {
-    margin-bottom: 5px; /* Espacio entre botones */
+    margin-bottom: 0px; /* Espacio entre botones */
 }
 
 .list-group-item p {
     margin: 0; /* Ajusta el margen del texto para evitar espacios innecesarios */
 }
 
+.list-group-item {
+    display: flex;
+    justify-content: space-between; /* Para separar el texto y los botones */
+    align-items: center; /* Alinear verticalmente */
+    padding: 10px;
+}
+
+.contenido-listado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: #ebedf4d5;
+    padding: 5px;
+    border-radius: 10px;
+    border-style:groove;
+}
+
+.busqueda {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    border:rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 5px 30px;
+    width: auto;
+    white-space: nowrap;
+    cursor:text;
+    border-color: #16363f;
+    border-style:solid;
+}
 .btn-busqueda {
     display: inline-block;
     text-align: center;
@@ -254,8 +298,11 @@ section{
     width: auto;
     white-space: nowrap;
     cursor:text;
-    border-color: #16363f;
-    border-style:solid;
+}
+
+.btn-busqueda:hover{
+    background-color: #bbdec6;
+    color: white;
 }
 
 /* desplegable */
@@ -284,22 +331,25 @@ section{
     border: none;
     cursor: pointer;
     border-radius: 5px;
-    scroll-margin-top: 100px;
 }
 
 .dropbtn:hover {
     background-color: #bbdec6;
-    scroll-margin-top: 100px;
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #F3E9DC;
+    background-color: #f7f7f7;
     min-width: 160px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
-    right: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    font-family: 'Sour Gummy', sans-serif;
+    pointer-events: none;
 }
 
 .dropdown-content a {
@@ -316,6 +366,9 @@ section{
 
 .dropdown:hover .dropdown-content {
     display: block;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
 }
 
 /* index */

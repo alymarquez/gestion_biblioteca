@@ -8,7 +8,7 @@
     <button class="dropbtn">☰</button>
     <div class="dropdown-content">
         <a href="#agregarLibro">Agregar Libro</a>
-        <a href="#listalibros">Libros Disponibles</a>
+        <a href="#lista">Libros Disponibles</a>
     </div>
 </nav>
 
@@ -40,13 +40,13 @@
         </div>
     </section>
 
-    <div id="listalibros">
-        <h2 id="librosdisponibles">Libros disponibles</h2>
+    <div id="lista">
+        <h2 id="librosdisponibles">LIBROS DISPONIBLES</h2>
         
         <!-- Barra de búsqueda -->
         <form method="GET" action="{{ url_for('manejar_libros') }}#listalibros">
-            <input type="text" class="btn-busqueda" name="query" placeholder="Buscar por título, autor, ISBN o editorial..." value="{{ query }}">
-            <button class="btn-primary" type="submit">Buscar</button>
+            <input type="text" class="busqueda" name="query" placeholder="Buscar por título, autor, ISBN o editorial..." value="{{ query }}">
+            <button class="btn-busqueda" type="submit">Buscar</button>
         </form>
 
         {% if not libros %}
@@ -56,17 +56,19 @@
         <ul class="list-group">
             {% for libro in libros%}
             <li class="list-group-item">
-                <p><strong>{{ libro.titulo }}</strong> - {{ libro.autor }} (ISBN: {{ libro.ISBN }}, Editorial: {{ libro.editorial }}) </p>
-                <div class="button-container">
-                    <form action="{{ url_for('editar_libro', isbn=libro.ISBN) }}" method="GET" style="display:inline;">
-                        <button type="submit" class="btn-primary">Editar</button>
-                    </form>
-                    
-                    <form action="{{ url_for('eliminar_libro', isbn=libro.ISBN) }}" method="POST" style="display:inline;">
-                        <button type="submit" class="btn-primary" onclick="return confirm('¿Seguro que quieres eliminar este libro?')">
-                            Eliminar
-                        </button>
-                    </form>
+                <div class="contenido-listado"> 
+                    <p><strong>{{ libro.titulo }}</strong> - {{ libro.autor }} (ISBN: {{ libro.ISBN }}, Editorial: {{ libro.editorial }}) </p>
+                    <div class="button-container">
+                        <form action="{{ url_for('editar_libro', isbn=libro.ISBN) }}" method="GET" style="display:inline;">
+                            <button type="submit" class="btn-primary">Editar</button>
+                        </form>
+                        
+                        <form action="{{ url_for('eliminar_libro', isbn=libro.ISBN) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn-primary" onclick="return confirm('¿Seguro que quieres eliminar este libro?')">
+                                Eliminar
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </li>
             
