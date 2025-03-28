@@ -57,13 +57,13 @@
             {% for libro in libros%}
             <li class="list-group-item">
                 <div class="contenido-listado"> 
-                    <p><strong>{{ libro.titulo }}</strong> - {{ libro.autor }} (ISBN: {{ libro.ISBN }}, Editorial: {{ libro.editorial }}) </p>
+                    <p><strong>{{ libro[1] }}</strong> - {{ libro[2] }} (ISBN: {{ libro[4] }}, Editorial: {{ libro[3] }}) </p>
                     <div class="button-container">
-                        <form action="{{ url_for('editar_libro', isbn=libro.ISBN) }}" method="GET" style="display:inline;">
+                        <form action="{{ url_for('editar_libro', isbn=libro[4]) }}" method="GET" style="display:inline;">
                             <button type="submit" class="btn-primary">Editar</button>
                         </form>
                         
-                        <form action="{{ url_for('eliminar_libro', isbn=libro.ISBN) }}" method="POST" style="display:inline;">
+                        <form action="{{ url_for('eliminar_libro', isbn=libro[4]) }}" method="POST" style="display:inline;">
                             <button type="submit" class="btn-primary" onclick="return confirm('¿Seguro que quieres eliminar este libro?')">
                                 Eliminar
                             </button>

@@ -28,6 +28,16 @@
                 </div>
             </header>
             <div class="contenidos">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="alert alert-warning">
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
                 {% block contenido %}{% endblock %} 
             </div>
             
@@ -35,3 +45,14 @@
     </div>
 </body>
 </html>
+
+<script>
+    setTimeout(function() {
+        let alert = document.querySelector(".alert");
+        if (alert) {
+            alert.style.transition = "opacity 0.5s ease";
+            alert.style.opacity = "0";
+            setTimeout(() => alert.remove(), 500); 
+        }
+    }, 2000);
+</script>

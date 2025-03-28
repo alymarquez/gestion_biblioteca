@@ -1,153 +1,257 @@
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
+from flask_mysqldb import MySQL
+from flask import flash
+import MySQLdb
+from datetime import datetime
+
+db=MySQL()
+
 class Libro:
-    contador = 0
-    def __init__(self, titulo, autor, ISBN, editorial, disponibilidad=True):
-        Libro.contador += 1
-        self.id = Libro.contador
+    def __init__(self, id, titulo, autor, ISBN, editorial, disponibilidad=True, user_id=None):
+        self.id = id
         self.titulo = titulo
         self.autor = autor
         self.ISBN = ISBN
         self.editorial = editorial
         self.disponibilidad = disponibilidad
+        self.user_id = user_id
 
-    def __repr__(self):
-        return f'Titulo: {self.titulo}, Autor: {self.autor}. ISBN: {self.ISBN}\n '
+    @staticmethod
+    def agregar(titulo, autor, ISBN, editorial, user_id):
+        cursor = db.connection.cursor()
+        try:
+            cursor.execute(
+                "INSERT INTO libro (titulo, autor, ISBN, editorial, user_id) VALUES (%s, %s, %s, %s, %s)", 
+                (titulo, autor, ISBN, editorial, user_id)
+            )
+            db.connection.commit()
+            flash("Libro agregado correctamente", "success")
 
-    def getTitulo(self):
-        return self.titulo
+        except MySQLdb.IntegrityError:
+            flash("Error: El libro ya está registrado en este sistema.", "danger")
+        
+        finally:
+            cursor.close()
 
-    def getISBN(self):
-        return self.ISBN
+    @staticmethod
+    def get_by_user(user_id):
+        cursor = db.connection.cursor()
+        cursor.execute("SELECT * FROM libro WHERE user_id = %s", (user_id,))
+        libros = cursor.fetchall()
+        return [Libro(*libro) for libro in libros]
 
+    @staticmethod
+    def get_by_isbn(isbn, user_id):
+        cursor = db.connection.cursor()
+        cursor.execute("SELECT * FROM libro WHERE ISBN = %s AND user_id = %s", (isbn, user_id))
+        libro = cursor.fetchone()
+        if libro:
+            return Libro(*libro)
+        return None
+
+    @staticmethod
+    def eliminar(isbn, user_id):
+        cursor = db.connection.cursor()
+        cursor.execute("DELETE FROM libro WHERE ISBN = %s AND user_id = %s", (isbn, user_id))
+        db.connection.commit()
+    
     def getDisponibilidad(self):
-        return self.disponibilidad
+        return self.disponibilidad == 1
 
-    def setDisponibilidad(self, disponible):
-        self.disponibilidad = disponible
+    def setDisponibilidad(self, disponibilidad):
+        cursor = db.connection.cursor()
+        cursor.execute("UPDATE libro SET disponibilidad = %s WHERE id = %s", (disponibilidad, self.id))
+        db.connection.commit()
+        cursor.close()
 
 
 class Usuario:
-    contador = 0
-
-    def __init__(self, nombre, apellido, dni, email, **kwargs ):
-        Usuario.contador += 1
-        self.id = Usuario.contador
+    def __init__(self, id, nombre, apellido, dni, email, user_id, infracciones = 0):
+        self.id = id
         self.nombre = nombre
         self.apellido = apellido
         self.dni = dni
         self.email = email
-        self.librosTomados = kwargs.get('librosTomados', [])
+        self.user_id = user_id
+        self.infracciones = infracciones
 
-    def getLibros(self):
-        return self.librosTomados
+    @staticmethod
+    def agregar(nombre, apellido, dni, email, user_id):
+        cursor = db.connection.cursor()
 
-    def getNombre(self):
-        return self.nombre
+        try:
+            cursor.execute(
+                "INSERT INTO usuario_biblioteca (nombre, apellido, dni, email, user_id) VALUES (%s, %s, %s, %s, %s)", 
+                (nombre, apellido, dni, email, user_id)
+            )
+            db.connection.commit()
+            flash("Usuario agregado correctamente", "success")
 
-    def getApellido(self):
-        return self.apellido
+        except MySQLdb.IntegrityError as e:
+            if "for key 'dni'" in str(e):
+                flash("Error: El DNI ya está registrado.", "danger")
+            elif "for key 'email'" in str(e):
+                flash("Error: El email ya está registrado.", "danger")
+            else:
+                flash("Error: No se pudo agregar el usuario.", "danger")
 
-    def getDni(self):
-        return self.dni
+        finally:
+            cursor.close()
 
-    def agregarLibro(self, libro):
-        self.librosTomados.append(libro)
+    @staticmethod
+    def get_by_user(user_id):
+        cursor = db.connection.cursor()
+        cursor.execute("SELECT * FROM usuario_biblioteca WHERE user_id = %s", (user_id,))
+        usuarios = cursor.fetchall()
+        return [Usuario(*usuario) for usuario in usuarios]
 
+    @staticmethod
+    def eliminar(dni, user_id):
+        cursor = db.connection.cursor()
+        cursor.execute("DELETE FROM usuario_biblioteca WHERE dni = %s AND user_id = %s", (dni, user_id))
+        db.connection.commit()
+        cursor.close()
 
-class Biblioteca:
-    usuarios = []
-    libros = []
-    prestamos = []
-
-    def registrarUsuario(self, usuario):
-        for u in self.usuarios:
-            if u.dni == usuario.dni:
-                print(f"El usuario con DNI {usuario.dni} ya está registrado en la biblioteca.")
-                return
-            if u.email == usuario.email:
-                print(f'El email ya está registrado')
-                return
-        self.usuarios.append(usuario)
-        print(f"El usuario '{usuario.getNombre()}' registrado correctamente.")
-
-    def agregarLibro(self, libro):
-        for l in self.libros:
-            if l.ISBN == libro.ISBN:
-                print(f"El libro con ISBN {libro.ISBN} ya está en la biblioteca.")
-                return
-        self.libros.append(libro)
-        print(f"Libro '{libro.titulo}' agregado correctamente.")
-
-    def eliminarLibro(self, isbn):
-        for l in self.libros:
-            if l.ISBN == isbn:
-                self.libros.remove(l)
-                return
-        print(f'El libro no se encuentra en la biblioteca')
-    
-    def buscarLibro(self, isbn):
-        for l in self.libros:
-            if l.ISBN == isbn:
-                return l
-        print('El libro con isbn {isbn} no se encuentra en la biblioteca')
-        #return None
-    
-    def librosDisponibles(self):
-        return [libro for libro in self.libros if libro.getDisponibilidad()]
-
-    def pedirLibro(self, usuario, libro, fecha_prestamo, fecha_devolucion):
-        if not libro.getDisponibilidad():
-            print(f"El libro '{libro.titulo}' no está disponible para préstamo.")
-            return
-        
-        if len(usuario.getLibros()) >= 3:
-            print(f"El usuario '{usuario.getNombre()} {usuario.getApellido()}' ha alcanzado el límite de préstamos.")
-            return
-
-        for libroUsuario in usuario.getLibros():
-            if libroUsuario.ISBN == libro.ISBN:
-                print(f"El usuario ya tiene un préstamo activo del libro '{libro.titulo}'.")
-                return
-
-        for prestamo in self.getPrestamos():
-            if prestamo.libro.ISBN == libro.ISBN and prestamo.usuario.getDni() == usuario.getDni():
-                print(f"El usuario ya tiene un préstamo activo del libro '{libro.titulo}'.")
-                return
-        
-
-        prestamo = Prestamo(usuario, libro, fecha_prestamo, fecha_devolucion)
-        libro.setDisponibilidad(False)
-        self.prestamos.append(prestamo)
-        usuario.agregarLibro(libro)
-        print(f"Préstamo realizado: {prestamo}")
-
-    def devolverLibro(self, usuario, libro):
-      # si el ISBN de un libro coincide con el ISBN del libro de algun prestamo entonces append a libros y remove el prestamo
-      for libroUsuario in usuario.getLibros():
-        if libroUsuario.ISBN == libro.ISBN:
-          for prestamo in self.prestamos:
-            if prestamo.libro.ISBN == libroUsuario.ISBN:
-              self.prestamos.remove(prestamo)
-              usuario.librosTomados.remove(libroUsuario)
-              libro.setDisponibilidad(True)
-              print(f"Libro devuelto con exito")
-              return
-      print(f"El libro no existe")
-
-
-    def getPrestamos(self):
-        return self.prestamos
-
+    def get_by_dni(dni, user_id):
+        cursor = db.connection.cursor()
+        cursor.execute("SELECT * FROM usuario_biblioteca WHERE dni = %s AND user_id = %s", (dni, user_id))
+        usuario = cursor.fetchone()
+        if usuario:
+            return Usuario(*usuario)
+        return None
 
 class Prestamo:
-    contador_id = 0
-
-    def __init__(self, usuario, libro, fecha_prestamo, fecha_devolucion):
-        Prestamo.contador_id += 1
-        self.id = Prestamo.contador_id
-        self.usuario = usuario
-        self.libro = libro
+    def __init__(self, id, user_id, libro_id, fecha_prestamo, fecha_devolucion, fecha_devolucion_real, libro_titulo, usuario_nombre, usuario_dni):
+        self.id = id
+        self.user_id = user_id
+        self.libro_id = libro_id
         self.fecha_prestamo = fecha_prestamo
         self.fecha_devolucion = fecha_devolucion
+        self.fecha_devolucion_real = fecha_devolucion_real
+        self.libro_titulo = libro_titulo
+        self.usuario_nombre = usuario_nombre
+        self.usuario_dni = usuario_dni
+
+    @staticmethod
+    def agregar(user_id, libro_id, fecha_prestamo, fecha_devolucion, admin_id):
+        cursor = db.connection.cursor()
+        try:
+            # Verificamos las infracciones del usuario
+            cursor.execute("SELECT infracciones FROM usuario_biblioteca WHERE id = %s", (user_id,))
+            infracciones = cursor.fetchone()[0]
+
+            if infracciones >= 3:
+                flash("Este usuario tiene más de 3 infracciones. No puede realizar más préstamos.", "danger")
+                return
+
+            cursor.execute(
+                "INSERT INTO prestamo (user_id, libro_id, fecha_prestamo, fecha_devolucion, admin_id) VALUES (%s, %s, %s, %s, %s)", 
+                (user_id, libro_id, fecha_prestamo, fecha_devolucion, admin_id)
+            )
+            db.connection.commit()
+
+            flash("El préstamo ha sido realizado con éxito.", "success")
+
+        except MySQLdb.Error as e:
+            flash("Error al registrar el préstamo.", "danger")
+        finally:
+            cursor.close()
+
+    @staticmethod
+    def devolver(libro_id, user_id, admin_id):
+        cursor = db.connection.cursor()
+        try:
+            cursor.execute("SELECT * FROM prestamo WHERE libro_id = %s AND user_id = %s AND admin_id = %s", (libro_id, user_id, admin_id))
+            prestamo = cursor.fetchone()
+
+            if prestamo:
+
+                cursor.execute("UPDATE prestamo SET fecha_devolucion_real = NOW() WHERE id = %s", (prestamo[0],))
+                db.connection.commit()
+
+                fecha_devolucion_real = datetime.now()
+                fecha_devolucion = datetime.combine(prestamo[4], datetime.min.time())
+                
+                if (fecha_devolucion_real - fecha_devolucion).days > 15:
+                    cursor.execute("UPDATE usuario_biblioteca SET infracciones = infracciones + 1 WHERE id = %s", (user_id,))
+                    db.connection.commit()
+                    flash("El libro se ha devuelto con retraso. Se ha sumado una infracción al usuario.", "warning")
+
+            else:
+                flash("No se encontró un préstamo para este libro.", "error")
+        
+        except MySQLdb.Error as e:
+            flash("Error al devolver el libro.", "danger")
+        finally:
+            cursor.close()
+
+    @staticmethod
+    def get_by_user(admin_id, user_id, libro_id):
+        cursor = db.connection.cursor()
+        cursor.execute("SELECT * FROM prestamo WHERE admin_id = %s AND user_id = %s AND libro_id = %s", (admin_id, user_id, libro_id, ))
+        prestamos = cursor.fetchall()
+        return [Prestamo(*prestamo) for prestamo in prestamos]
+
+    def get_all():
+        cursor = db.connection.cursor()
+        cursor.execute("""
+            SELECT
+                prestamo.id,
+                prestamo.user_id,
+                prestamo.libro_id,
+                prestamo.fecha_prestamo,
+                prestamo.fecha_devolucion,
+                prestamo.fecha_devolucion_real,
+                libro.titulo,
+                usuario_biblioteca.nombre,
+                usuario_biblioteca.dni
+            FROM
+                prestamo
+            JOIN
+                libro ON prestamo.libro_id = libro.id
+            JOIN
+                usuario_biblioteca ON prestamo.user_id = usuario_biblioteca.id
+        """) 
+        prestamos = cursor.fetchall()
+        return [Prestamo(*prestamo) for prestamo in prestamos]
+
+
+class User(UserMixin):
+    def __init__(self, id, username, password):
+        self.id = id
+        self.username = username
+        self.password = password
 
     def __repr__(self):
-        return f'Prestamo {self.id} a {self.usuario.nombre} con dni {self.usuario.dni} del libro {self.libro.getTitulo()}'
+        return f'User: {self.username}'
+    
+    @staticmethod
+    def get_by_id(user_id):
+        cursor = db.connection.cursor()
+        cursor.execute("SELECT id, username, password FROM user WHERE id = %s", (user_id,))
+        user = cursor.fetchone()
+        if user:
+            return User(*user)
+        return None
+
+    @staticmethod
+    def authenticate(username, password):
+        cursor = db.connection.cursor()
+        cursor.execute("SELECT id, username, password FROM user WHERE username = %s", (username,))
+        user = cursor.fetchone()
+        if user and check_password_hash(user[2], password):
+            return User(*user)
+        return None
+
+    @staticmethod
+    def create(username, password):
+        cursor = db.connection.cursor()
+        password_hash = generate_password_hash(password)
+        cursor.execute("INSERT INTO user (username, password) VALUES (%s, %s)", (username, password_hash))
+        db.connection.commit()
+        return cursor.lastrowid
+    
+    @classmethod
+    def check_password(cls, hashed_password, password):
+        return check_password_hash(hashed_password, password)

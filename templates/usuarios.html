@@ -27,13 +27,34 @@
             </form>
         </div>
     </section>
-    
+
     <div id="lista">
-        <h2>Lista de usuarios</h2>
+        <h2 id="librosdisponibles">LISTA DE USUARIOS</h2>
+                <!-- Barra de búsqueda -->
+        <form method="GET" action="{{ url_for('manejar_usuarios') }}">
+            <input type="text" class="busqueda" name="query" placeholder="Buscar por nombre, apellido, DNI o email..." value="{{ query }}">
+            <button class="btn-busqueda" type="submit">Buscar</button>
+        </form>
+
+        {% if not usuarios %}
+            <p>No se encontraron resultados.</p>
+        {% endif %}
+
         <ul class="list-group">
             {% for usuario in usuarios %}
             <li class="list-group-item">
-                {{ usuario.nombre }} {{ usuario.apellido }} (DNI: {{ usuario.dni }}) - email: {{ usuario.email }} 
+                {{ usuario[1] }} {{ usuario[2] }} (DNI: {{ usuario[3] }}) - email: {{ usuario[4] }}
+                <div class="button-container">
+                    <form action="{{ url_for('editar_usuario', dni=usuario[3]) }}" method="GET" style="display:inline;">
+                        <button type="submit" class="btn-primary">Editar</button>
+                    </form>
+                    
+                    <form action="{{ url_for('eliminar_usuario', dni=usuario[3]) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn-primary" onclick="return confirm('¿Seguro que quieres eliminar este usuario?')">
+                            Eliminar
+                        </button>
+                    </form>
+                </div>
             </li>
             {% endfor%}
         </ul>

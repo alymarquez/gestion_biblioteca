@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Edicion usuarios{% endblock %}
+
+{% block contenido %}
+    <h1>Editar Usuario</h1>
+
+    <form method="POST">
+        <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" value="{{ usuario.nombre }}" required>
+        </div>
+        <div class="form-group">
+            <label for="apellido">Apellido</label>
+            <input type="text" class="form-control" id="apellido" name="apellido" value="{{ usuario.apellido }}" required>
+        </div>
+        <div class="form-group">
+            <label for="dni">DNI</label>
+            <input type="text" class="form-control" id="dni" name="dni" value="{{ usuario.dni }}" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" id="email" name="email" value="{{ usuario.email }}" required>
+        </div>
+        <button type="submit" class="btn btn-success">Guardar cambios</button>
+        <a href="{{ url_for('manejar_usuarios') }}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}

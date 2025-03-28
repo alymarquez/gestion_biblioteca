@@ -5,6 +5,9 @@
 {% block header %}GESTIÓN DE BIBLIOTECA{% endblock %}
 
 {% block contenido %}
+<h1> Bienvenid@, {{ current_user.fullname }} </h1>
+<a class="btn btn-primary" href="{{ url_for('logout') }}">Cerrar Sesión</a>
+
 <div class="description-box">
     <p>Sistema de Gestión para Biblioteca Pública. Controle y administre de forma óptima y fácil el flujo de préstamos y devoluciones de libros.</p>
 </div>
